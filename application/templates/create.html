@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block content %}
+<form class="create" action="/materials" method="POST" name="create">
+  <h1>Luo uusi oppimateriaali</h1>
+  <div class="create">Nimi</div>
+  <input id="name" class="create" name="name" />
+  <div class="create">Kuvaus</div>
+  <input class="create" name="description" />
+  <div class="create">Kategoria</div>
+  <input class="create" name="category" />
+  <button class="create" onclick="validate()">Luo uusi</button>
+  <div id="message" class="create" style="display: none;"></div>
+</form>
+<script>
+  validate = () => {
+    event.preventDefault()
+    name = document.getElementById("name").value
+    const element = document.getElementById("message")
+    if (name.trim().length < 4) {
+      element.style.display = ""
+      element.innerHTML = "Oppimateriaalin nimi liian lyhyt. Lyhin sallittu pituus (4)."
+      setTimeout(() => {
+        element.style.display = "none"
+      }, 5000)
+    } else document.create.submit()
+  }
+</script>
+<style>
+  h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  div.create {
+    font-size: 130%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  input.create {
+    font-size: 130%;
+  }
+  button.create {
+    margin-left: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 130%;
+    cursor: pointer;
+    background-color: rgb(255, 220, 226);
+  }
+  button.create:hover {
+    background-color: rgb(179, 179, 179);
+  }
+  form.create {
+    background-color: antiquewhite;
+    margin-left: 300px;
+    margin-right: 0;
+    margin-top: 120px;
+    padding: 50px;
+    text-align: left;
+    border-radius: 3em;
+    overflow-x: hidden;
+  }
+  #message {
+    color: red;
+  }
+</style>
+{% endblock %}

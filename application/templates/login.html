@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block content %}
+<form class="login" name="login" action="/login" method="POST">
+  <h1>Kirjaudu sisään</h1>
+  <p class="login">Käyttäjätunnus:</p>
+  <input class="login" name="username" />
+  <p class="login">Salasana:</p>
+  <input class="login" name="password" type="password" />
+  <p></p>
+  <button class="login" type="submit">Kirjaudu sisään</button>
+  <p></p>
+</form>
+<style>
+  form.login {
+    background-color: antiquewhite;
+    margin-left: 300px;
+    margin-right: 0;
+    margin-top: 120px;
+    padding: 50px;
+    border-radius: 3em;
+  }
+  .login {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 120%;
+  }
+  button.login {
+    width: 282px;
+  }
+</style>
+{% endblock %}

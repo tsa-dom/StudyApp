@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block content %}
+<form class="material" action="" method="POST" name="info">
+  <h1>{{ name }}</h1>
+  <textarea id="contents" readonly rows="{{ rows }}" name="content_area">{{ contents }}</textarea>
+  {% if owner == True %}
+  <button id="modify" class="material" style="display: '';" onclick="modifyContent()">Muokkaa tekstiä</button>
+  <div id="content" style="display: none;">
+    <button class="material" onclick="cancel()">Piilota</button>
+    <button class="material" onclick="saveContent()">Tallenna</button>
+  </div>
+  {% endif %}
+</form>
+<script>
+  modifyContent = () => {
+    event.preventDefault()
+    document.getElementById("contents").readOnly = false
+    document.getElementById("modify").style.display = "none"
+    document.getElementById("content").style.display = ""
+  }
+  cancel = () => {
+    event.preventDefault()
+    document.getElementById("contents").readOnly = true
+    document.getElementById("content").style.display = "none"
+    document.getElementById("modify").style.display = ""
+  }
+  saveContent = () => {
+    event.preventDefault()
+    document.info.action = "/materials/contents"
+    document.info.submit()
+  }
+</script>
+
+<style>
+  h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  textarea {
+    font-size: 130%;
+  }
+  #contents {
+    margin-top: 0;
+    font-size: 130%;
+    display: block;
+    width: 100%;
+    border: none;
+    resize: none;
+    background-color: antiquewhite;
+    
+  }
+  form.material {
+    background-color: antiquewhite;
+    margin-left: 300px;
+    margin-right: 0;
+    margin-top: 120px;
+    padding: 50px;
+    text-align: left;
+    border-radius: 3em;
+    overflow-x: hidden;
+  }
+  button.material {
+    margin-top: 5px;
+    margin-left: 0px;
+    margin-right: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 120%;
+    cursor: pointer;
+  }
+  button.material:hover {
+    background-color: rgb(179, 179, 179);
+  }
+</style>
+{% endblock %}
