@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 {% extends "layout.html" %}
 {% block content %}
-<form class="create" action="/materials" method="POST" name="create">
+<form class="child" action="/materials" method="POST" name="create">
+  <input type="hidden" name="csrf" value={{ session.csrf_token }} />
   <h1>Luo uusi oppimateriaali</h1>
   <div class="create">Nimi</div>
   <input id="name" class="create" name="name" />
@@ -13,17 +14,12 @@
   <div id="message" class="create" style="display: none;"></div>
 </form>
 <script>
-  validate = () => {
+  const validate = () => {
     event.preventDefault()
-    name = document.getElementById("name").value
-    const element = document.getElementById("message")
-    if (name.trim().length < 4) {
-      element.style.display = ""
-      element.innerHTML = "Oppimateriaalin nimi liian lyhyt. Lyhin sallittu pituus (4)."
-      setTimeout(() => {
-        element.style.display = "none"
-      }, 5000)
-    } else document.create.submit()
+    name = get("name").value
+    const element = get("message")
+    if (name.trim().length < 4) setMessage(element, "Oppimateriaalin nimi liian lyhyt. Lyhin sallittu pituus (4).")
+    else document.create.submit()
   }
 </script>
 <style>
@@ -49,16 +45,6 @@
   }
   button.create:hover {
     background-color: rgb(179, 179, 179);
-  }
-  form.create {
-    background-color: antiquewhite;
-    margin-left: 300px;
-    margin-right: 0;
-    margin-top: 120px;
-    padding: 50px;
-    text-align: left;
-    border-radius: 3em;
-    overflow-x: hidden;
   }
   #message {
     color: red;

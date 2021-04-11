@@ -2,7 +2,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="signup" style="visibility: hidden;">test</div>
-<form class="signup" name="signup" action="/signup" method="POST">
+<form class="child" name="signup" action="/signup" method="POST">
   <h1>Luo uusi käyttäjä</h1>
   <p class="signup">Käyttäjätunnus:</p>
   <input id="username" class="signup" name="username" />
@@ -16,53 +16,33 @@
   <p></p>
 </form>
 <script>
-  validate = () => {
+  const validate = () => {
     event.preventDefault()
-    const username = document.getElementById("username").value
-    const password = document.getElementById("password").value
-    const confirmation = document.getElementById("confirmation").value
-    const element = document.getElementById("message")
-    element.style.display = ""
-    const timeout = () => {
-      setTimeout(() => {
-        element.style.display = "none"
-      }, 5000)
-    }
-    if (username.trim().length < 3) {
-      element.innerHTML = "Liian lyhyt käyttäjätunnus. Lyhin sallittu pituus on (3)."
-      timeout()
-    } else if (password !== confirmation) {
-      element.innerHTML = "Salasanat eivät täsmää."
-      timeout()
-    } else if (password.length < 8) {
-      element.innerHTML = "Liian lyhyt salasana. Lyhin sallittu pituus on (8)"
-      timeout()
-    } else {
-      document.signup.submit()
-    }
+    const username = get("username").value
+    const password = get("password").value
+    const confirmation = get("confirmation").value
+    const element = get("message")
+    if (username.trim().length < 3) setMessage(element, "Liian lyhyt käyttäjätunnus. Lyhin sallittu pituus on (3).")
+    else if (password !== confirmation) setMessage(element, "Salasanat eivät täsmää.")
+    else if (password.length < 8) setMessage(element, "Liian lyhyt salasana. Lyhin sallittu pituus on (8)")
+    else document.signup.submit()
   }
 </script>
 <style>
-  form.signup {
-    background-color: antiquewhite;
-    margin-left: 300px;
-    margin-right: 0;
-    margin-top: 120px;
-    padding: 50px;
-    border-radius: 3em;
-  }
   .signup {
     padding-top: 5px;
     padding-bottom: 5px;
     margin-top: 0;
     margin-bottom: 0;
-    font-size: 120%;
+    font-size: 130%;
+    width: 274px;
   }
   div.signup {
     color: red;
   }
   button.signup {
     width: 282px;
+    cursor: pointer;
   }
 </style>
 {% endblock %}

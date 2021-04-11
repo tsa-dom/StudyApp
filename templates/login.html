@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% extends "layout.html" %}
 {% block content %}
-<form class="login" name="login" action="/login" method="POST">
+<form class="child" name="login" action="/login" method="POST">
   <h1>Kirjaudu sisään</h1>
   <p class="login">Käyttäjätunnus:</p>
   <input class="login" name="username" />
@@ -12,23 +12,17 @@
   <p></p>
 </form>
 <style>
-  form.login {
-    background-color: antiquewhite;
-    margin-left: 300px;
-    margin-right: 0;
-    margin-top: 120px;
-    padding: 50px;
-    border-radius: 3em;
-  }
   .login {
     padding-top: 5px;
     padding-bottom: 5px;
     margin-top: 0;
     margin-bottom: 0;
-    font-size: 120%;
+    font-size: 130%;
+    width: 274px;
   }
   button.login {
     width: 282px;
+    cursor: pointer;
   }
 </style>
 {% endblock %}

@@ -1,36 +1,21 @@
 <!DOCTYPE html>
 {% extends "layout.html" %}
 {% block content %}
-<form class="materials" action="" method="GET" name="materials" >
+<form id="main" class="child" action="" method="GET" >
+  <input type="hidden" name="csrf" value={{ session.csrf_token }} />
   <h1>{{ title }}</h1>
   {% for material in materials %}
-  <button id="{{ material[0] }}" onclick="redirect({{ material[0] }})" class="materials">
+  <button id="{{ material[0] }}" onclick="fire('main', '/materials/' + {{ material[0] }})" class="materials">
     <h3>{{ material[1] }}</h3>
     <div>Kuvaus: {{ material[2] }}</div>
   </button><hr>
   {% endfor %}
 </form>
-<script>
-  redirect = (material) => {
-    event.preventDefault()
-    document.materials.action = "/materials/" + material
-    document.materials.submit()
-  }
-</script>
+
 <style>
   h3 {
     margin-top: 5px;
     margin-bottom: 5px;
-  }
-  form.materials {
-    background-color: antiquewhite;
-    margin-left: 300px;
-    margin-right: 0;
-    margin-top: 120px;
-    padding: 50px;
-    text-align: left;
-    border-radius: 3em;
-    overflow-x: hidden;
   }
   button.materials {
     display: block;

@@ -7,33 +7,10 @@
   <textarea id="contents" readonly rows="{{ rows }}" name="content_area">{{ contents }}</textarea>
   
   {% if owner == True %}
-  <button id="modify" class="material" style="display: '';" onclick="modifyContent()">Muokkaa tekstiä</button>
+  <button id="modify" class="chapter" style="display: '';" onclick="modifyContent()">Muokkaa tekstiä</button>
   <div id="content" style="display: none;">
-    <button class="material" onclick="modifyContent()">Piilota</button>
-    <button class="material" onclick="fire('main', '/materials/contents')">Tallenna</button>
-  </div>
-  {% endif %}
-  
-  <p></p>
-  <hr>
-  <h2>Sisältö</h2>
-  {% for chapter in chapters %}
-  <a href="/chapters/{{ chapter[0] }}" class="creation">{{ chapter[1] }}</a>
-  <p></p>
-  {% endfor %}
-
-  <div id="creation" style="display: none;">
-    <label class="creation">Kappaleen nimi: </label>
-    <input class="creation" name="chapter_name" />
-    <p></p>
-    <div class="creation">Kappaleen sisältö:</div>
-    <textarea id="chapter" rows="10" name="chapter_content"></textarea>
-    <button class="material" onclick="fire('main', '/chapters')">Tallenna</button>
-  </div>
-
-  {% if owner == True %}
-  <div id="add">
-    <button class="material" style="display: '';" onclick="chapterCreation()">Lisää uusi kappale</button>
+    <button class="chapter" onclick="modifyContent()">Piilota</button>
+    <button class="chapter" onclick="fire('main', '/chapters/contents')">Tallenna</button>
   </div>
   {% endif %}
 </form>
@@ -43,10 +20,6 @@
     event.preventDefault()
     get("contents").readOnly = !get("contents").readOnly
     toggleVisibility("modify", "content")
-  }
-  const chapterCreation = () => {
-    event.preventDefault()
-    toggleVisibility("creation", "add")
   }
 </script>
 
@@ -72,7 +45,7 @@
   #chapter {
     background-color: white;
   }
-  button.material {
+  button.chapter {
     margin-top: 5px;
     margin-left: 0px;
     margin-right: 10px;
@@ -81,7 +54,7 @@
     font-size: 120%;
     cursor: pointer;
   }
-  button.material:hover {
+  button.chapter:hover {
     background-color: rgb(179, 179, 179);
   }
 </style>
