@@ -24,6 +24,4 @@ Sovelluksen tarkoitus on että sivustoa käyttävä käyttäjä näkee listan si
 * Mahdollisuus lisätä tehtäviä oppimateriaalille
 * Mahdollisuus tehdä muiden käyttäjien luomia tehtäviä
 * Oppimateriaalien järjestys niille annettujen pisteytysten mukaan
-
-## Userstory joka todennäköisesti tullaan jättämään pois lopullisesta toteutuksesta
-* Kirjautuneena käyttäjänä voin rajoittaa oman oppimateriaalin käyttöä kirjautumisavaimen avulla
+* Kirjautunut käyttäjä voi rajoittaa luomansa oppimateriaalin käyttöä kirjautumisavaimella
