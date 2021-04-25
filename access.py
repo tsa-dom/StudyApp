@@ -23,7 +23,7 @@ def get_user_id(username):
     
 def material_content(owner_id=None):
     if owner_id == None:
-        sql = "SELECT id, name, description FROM materials;"
+        sql = "SELECT DISTINCT M.id, M.name, M.description FROM materials M, chapters C WHERE M.id=C.material_id;"
         content = db.session.execute(sql)
         return content
     else:
@@ -61,6 +61,15 @@ def update_contents(material_id, contents):
     except:
         return False
 
+def update_material_name(material_id, name):
+    try:
+        sql = "UPDATE materials SET name=:name WHERE id=:material_id;"
+        db.session.execute(sql, {'material_id': material_id, 'name': name})
+        db.session.commit()
+        return True
+    except:
+        return False
+
 def chapters_by_id(material_id):
     sql = "SELECT * FROM chapters WHERE material_id=:material_id;"
     content = db.session.execute(sql, {"material_id": material_id})
@@ -93,6 +102,40 @@ def chapter_contents(chapter_id, contents):
 
 def user_chapter(user_id, material_id, chapter_id):
     sql = "SELECT chapters.*, materials.owner_id FROM chapters, materials WHERE chapters.material_id=materials.id and chapters.id=:chapter_id and materials.owner_id=:user_id;"
-    content = db.session.execute(sql, {'chapter_id': chapter_id, 'material_id': material_id, "user_id": user_id})
+    content = db.session.execute(sql, {"chapter_id": chapter_id, "material_id": material_id, "user_id": user_id})
     chapter = content.fetchone()
     return chapter
+
+def materials_by_name(name):
+    sql = "SELECT * FROM materials WHERE name LIKE :name;"
+    content = db.session.execute(sql, {"name": "%" + name + "%"})
+    materials = content.fetchall()
+    return materials
+
+def materials_by_author(author):
+    sql = "SELECT M.* FROM users U, materials M WHERE U.username=:author and U.id=M.owner_id;"
+    content = db.session.execute(sql, {"author": author})
+    materials = content.fetchall()
+    return materials
+
+def materials_by_category(category):
+    sql = "SELECT * FROM materials WHERE category_name=:category;"
+    content = db.session.execute(sql, {"category": category})
+    materials = content.fetchall()
+    return materials
+
+def drop_material(material_id):
+    sql = "DELETE FROM materials WHERE id=:material_id;"
+    db.session.execute(sql, {"material_id": material_id})
+    db.session.commit()
+
+def add_feedback(material_id, user_id, feedback):
+    sql = "INSERT INTO feedback (material_id, user_id, content_raw) VALUES (:material_id, :user_id, :feedback);"
+    db.session.execute(sql, {"material_id": material_id, "user_id": user_id, "feedback": feedback})
+    db.session.commit()
+
+def get_feedback(material_id):
+    sql = "SELECT F.content_raw, U.username FROM feedback F, materials M, users U WHERE F.material_id=M.id AND F.user_id=U.id AND M.id=:material_id;"
+    content = db.session.execute(sql, {"material_id": material_id})
+    feedback = content.fetchall()
+    return feedback

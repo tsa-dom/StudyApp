@@ -31,9 +31,33 @@
     <button class="material" onclick="fire('main', '/chapters')">Tallenna</button>
   </div>
 
+  {% if owner == False %}
+    <div id="give" style="display: '';">
+      <button class="material" onclick="feedbackCreation()">Anna palautetta</button>
+      <p></p>
+    </div>
+    <div id="hide" style="display: none;">
+      <textarea id="feedback" rows="10" name="feedback"></textarea>
+      <button class="material" onclick="feedbackCreation()">Piillota</button>
+      <button class="material" onclick="fire('main', '/materials/feedback/' + {{ session.material_id }})">Lähetä palaute</button>
+    </div>
+  {% endif %}
+
   {% if owner == True %}
   <div id="add">
     <button class="material" style="display: '';" onclick="chapterCreation()">Lisää uusi kappale</button>
+    <p></p>
+    <input id="name" type="hidden" name="name" value="" />
+    <button class="material " style="display: '';" onclick="changeName()">Muuta oppimateriaalin nimeä</button>
+    <p></p>
+    <button class="material" style="display: '';" onclick="materialRemoval()">Poista oppimateriaali</button>
+  </div>
+  <div>
+    <h2>Palautteet</h2>
+    {% for content in feedback %}
+    <h4>Palatute käyttäjältä {{ content[1] }}</h4>
+    <textarea rows="5" readonly>{{ content[0] }}</textarea>
+    {% endfor %}
   </div>
   {% endif %}
 </form>
@@ -48,9 +72,28 @@
     event.preventDefault()
     toggleVisibility("creation", "add")
   }
+  const feedbackCreation = () => {
+    event.preventDefault()
+    toggleVisibility("give", "hide")
+  }
+  const changeName = () => {
+    event.preventDefault()
+    const name = prompt("Anna oppimateriaalille uusi nimi")
+    get("name").value = name
+    if (name.length > 3 && name.length < 50) fire("main", "/materials/name/" + {{ session.material_id }})
+    else alert("Materiaalin nimen tulee sisältää vähintää 4 ja alle 50 merkkiä!")
+  }
+  const materialRemoval = () => {
+    event.preventDefault()
+    const key = prompt("Vahvista poisto kirjoittamalla DELETE")
+    if (key === 'DELETE') fire("main", "/materials/remove/" + {{ session.material_id }})
+  }
 </script>
 
 <style>
+  h4 {
+    margin-bottom: 2px;
+  }
   h3 {
     margin-top: 5px;
     margin-bottom: 5px;
@@ -80,6 +123,7 @@
     padding-right: 10px;
     font-size: 120%;
     cursor: pointer;
+    width: 280px;
   }
   button.material:hover {
     background-color: rgb(179, 179, 179);

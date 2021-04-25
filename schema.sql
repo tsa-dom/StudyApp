@@ -19,3 +19,9 @@ CREATE TABLE chapters (
     material_id INTEGER,
     content_raw TEXT
 );
+
+CREATE TABLE feedback (
+    material_id INTEGER,
+    user_id INTEGER,
+    content_raw TEXT
+)

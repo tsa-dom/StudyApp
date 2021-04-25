@@ -4,6 +4,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from os import urandom
 import access as db
 
+def identify_user(request):
+    if (request.form["csrf"] != session["csrf_token"]):
+        abort(403)
+
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
@@ -84,7 +88,7 @@ def create_material():
     name = request.form["name"]
     description = request.form["description"]
     category = request.form["category"]
-    if db.create_material(name, description, "Empty", session["id"], category) == False:
+    if db.create_material(name, description, "\r\r\r\r\r", session["id"], category) == False:
       return redirect("/new")
 
     return redirect("/materials")
@@ -97,6 +101,7 @@ def material(material_id):
         session["material_id"] = material_id
         material = db.user_material(session["id"], material_id)
         chapters = db.chapters_by_id(material_id)
+        feedback = db.get_feedback(material_id)
         owner = False
         if material != None:
             owner = True
@@ -108,7 +113,8 @@ def material(material_id):
             name=material[1],
             contents=material[3],
             rows=len(material[3].splitlines()),
-            chapters=chapters
+            chapters=chapters,
+            feedback=feedback
         )
                     
     except:
@@ -167,5 +173,51 @@ def change_content():
         contents = request.form["content_area"]
         db.chapter_contents(session["chapter_id"], contents)
         return redirect("/chapters/" + str(session["chapter_id"]))
+    except:
+        return redirect("/")
+
+@app.route("/search")
+def search_material():
+    return render_template("search.html")
+
+@app.route("/search/result", methods=["POST"])
+def search_result():
+    try:
+        key = request.form["keyword"]
+        param = request.form["search_param"]
+        materials = None
+        if param == 'name':
+            materials = db.materials_by_name(key)
+        elif param == 'author':
+            materials = db.materials_by_author(key)
+        elif param == 'tag':
+            materials = db.materials_by_category(key)
+        return render_template("materials.html", materials=materials, title="Materiaalit hakusanalla " + key)
+    except:
+        return redirect("/")
+
+@app.route("/materials/remove/<int:material_id>", methods=["POST"])
+def delete_material(material_id):
+    if material_id == session["material_id"]:
+        db.drop_material(material_id)
+    return redirect("/materials/my")
+
+@app.route("/materials/name/<int:material_id>", methods=["POST"])
+def change_name(material_id):
+    try:
+        if (request.form["csrf"] != session["csrf_token"]):
+            abort(403)
+        name = request.form["name"]
+        db.update_material_name(session["material_id"], name)
+        return redirect("/materials/" + str(material_id))
+    except:
+        return redirect("/")
+
+@app.route("/materials/feedback/<int:material_id>", methods=["POST"])
+def add_feedback(material_id):
+    try:
+        identify_user(request)
+        db.add_feedback(material_id, session["id"], request.form["feedback"])
+        return redirect("/materials/" + str(material_id))
     except:
         return redirect("/")

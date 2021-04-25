@@ -17,6 +17,8 @@
     </div>
     <div class="nav">
       <button class="nav" onclick="fire('sidebar', '/materials')">Kaikki oppimateriaalit</button>
+      <p></p>
+      <button class="nav" onclick="fire('sidebar', '/search')">Hae oppimateriaalia</button>
       {% if session.username %}
       <p></p>
       <button class="nav" onclick="fire('sidebar', '/new')">Luo uusi oppimateriaali</button>

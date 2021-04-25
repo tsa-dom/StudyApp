@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block content %}
+<form id="main" class="child" action="" method="POST">
+  <input type="hidden" name="csrf" value={{ session.csrf_token }} />
+  <h1>Hae oppimateriaalia</h1>
+  <p class="search">Hakusana:</p>
+  <input class="search" name="keyword" />
+  <p class="search">Hakuparametri</p>
+  <select class="search" name="search_param">
+    <option value="name">Nimi</option>
+    <option value="author">Tekijä</option>
+    <option value="tag">Kategoria</option>
+  </select>
+  <p></p>
+  <button class="search" onclick="fire('main', '/search/result')">Hae oppimateriaaleja</button>
+  <p></p>
+</form>
+
+<style>
+  h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .search {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 130%;
+    width: 274px;
+  }
+  select.search {
+    width: 282px;
+  }
+  button.search {
+    width: 282px;
+    cursor: pointer;
+    background-color: rgb(231, 225, 226);
+  }
+  button:hover {
+    background-color: rgb(179, 179, 179);
+  }
+</style>
+{% endblock %}
