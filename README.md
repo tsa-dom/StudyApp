@@ -16,14 +16,17 @@ Sovelluksen tarkoitus on että sivustoa käyttävä käyttäjä näkee listan si
 * Kirjautuneena käyttäjänä voin luoda oman oppimateriaalin.
 * Kirjautuneena käyttäjänä näen listan omista materiaaleista.
 * Kirjautuneena käyttäjänä voin lisätä ja muokkaa sisältöä luomiini oppimateriaaleihin
-
-## Ominaisuudet joita ei olla vielä tehty
 * Sovelluksen oppimateriaalien hakutoiminnallisuus nimen, tekijän ja kategorian mukaan
 * Palautteen anto mahdollisuus oppimateriaalin tekijälle, sekä pisteytyksen antaminen
-* Oppimateriaalin ja sen sisällön poistaminen
+* Oppimateriaalin poistaminen
+* Oppimateriaalien järjestys niille annettujen pisteytysten mukaan
+* Oppimateriaalin nimen muuttaminen
+* Oppimateriaalit ovat näkymättömiä kunnes käyttäjä on luonut kappaleita oppimateriaalille
+
+## Ominaisuudet joita ei olla vielä tehty
+* Oppimateriaalin sisällön poistaminen
 * Mahdollisuus lisätä tehtäviä oppimateriaalille
 * Mahdollisuus tehdä muiden käyttäjien luomia tehtäviä
-* Oppimateriaalien järjestys niille annettujen pisteytysten mukaan
 * Kirjautunut käyttäjä voi rajoittaa luomansa oppimateriaalin käyttöä kirjautumisavaimella
 
 ## Sovelluksen testaaminen herokussa
