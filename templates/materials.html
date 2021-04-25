@@ -6,7 +6,8 @@
   <h1>{{ title }}</h1>
   {% for material in materials %}
   <button id="{{ material[0] }}" onclick="fire('main', '/materials/' + {{ material[0] }})" class="materials">
-    <h3>{{ material[1] }}</h3>
+    <h3>{{ material[1] }} - Pisteet: {{ material[6] }}</h3>
+    <div>Tekijä: {{ material[7] }} </div>
     <div>Kuvaus: {{ material[2] }}</div>
   </button><hr>
   {% endfor %}

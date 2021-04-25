@@ -20,16 +20,34 @@ def get_user_id(username):
     result = db.session.execute(sql, {"username": username})
     user_id = result.fetchone()
     return user_id
-    
+
 def material_content(owner_id=None):
     if owner_id == None:
-        sql = "SELECT DISTINCT M.id, M.name, M.description FROM materials M, chapters C WHERE M.id=C.material_id;"
+        sql = "SELECT DISTINCT M.*, U.username FROM (SELECT M.*, coalesce(L.likes,0) likes FROM materials M LEFT JOIN (SELECT material_id, sum(like_value) LIKES FROM likes GROUP BY material_id) L ON M.id=L.material_id) M, chapters C, users U WHERE U.id=M.owner_id AND M.id=C.material_id ORDER BY M.likes DESC;"
         content = db.session.execute(sql)
         return content
     else:
-        sql = "SELECT id, name, description FROM materials WHERE owner_id=:owner_id;"
+        sql = "SELECT M.*, U.username FROM (SELECT M.*, coalesce(L.likes,0) likes FROM materials M LEFT JOIN (SELECT material_id, sum(like_value) LIKES FROM likes GROUP BY material_id) L ON M.id=L.material_id) M, users U WHERE U.id=M.owner_id AND M.owner_id=:owner_id ORDER BY M.likes DESC;"
         content = db.session.execute(sql, {"owner_id": owner_id})
         return content
+
+def materials_by_name(name):
+    sql = "SELECT DISTINCT M.*, U.username FROM (SELECT M.*, coalesce(L.likes,0) likes FROM materials M LEFT JOIN (SELECT material_id, sum(like_value) LIKES FROM likes GROUP BY material_id) L ON M.id=L.material_id) M, chapters C, users U WHERE U.id=M.owner_id AND M.id=C.material_id AND M.name LIKE :name ORDER BY M.likes DESC;"
+    content = db.session.execute(sql, {"name": "%" + name + "%"})
+    materials = content.fetchall()
+    return materials
+
+def materials_by_author(author):
+    sql = "SELECT DISTINCT M.*, U.username FROM (SELECT M.*, coalesce(L.likes,0) likes FROM materials M LEFT JOIN (SELECT material_id, sum(like_value) LIKES FROM likes GROUP BY material_id) L ON M.id=L.material_id) M, chapters C, users U WHERE U.id=M.owner_id AND U.username=:author AND M.id=C.material_id ORDER BY M.likes DESC;"
+    content = db.session.execute(sql, {"author": author})
+    materials = content.fetchall()
+    return materials
+
+def materials_by_category(category):
+    sql = "SELECT DISTINCT M.*, U.username FROM (SELECT M.*, coalesce(L.likes,0) likes FROM materials M LEFT JOIN (SELECT material_id, sum(like_value) LIKES FROM likes GROUP BY material_id) L ON M.id=L.material_id) M, chapters C, users U WHERE U.id=M.owner_id AND M.id=C.material_id AND M.category_name=:category ORDER BY M.likes DESC;"
+    content = db.session.execute(sql, {"category": category})
+    materials = content.fetchall()
+    return materials
 
 def create_material(name, description, contents, owner_id, category):
     try:
@@ -101,28 +119,10 @@ def chapter_contents(chapter_id, contents):
         return False
 
 def user_chapter(user_id, material_id, chapter_id):
-    sql = "SELECT chapters.*, materials.owner_id FROM chapters, materials WHERE chapters.material_id=materials.id and chapters.id=:chapter_id and materials.owner_id=:user_id;"
+    sql = "SELECT C.*, M.owner_id FROM chapters C, materials M WHERE C.material_id=M.id and C.id=:chapter_id and M.owner_id=:user_id;"
     content = db.session.execute(sql, {"chapter_id": chapter_id, "material_id": material_id, "user_id": user_id})
     chapter = content.fetchone()
     return chapter
-
-def materials_by_name(name):
-    sql = "SELECT * FROM materials WHERE name LIKE :name;"
-    content = db.session.execute(sql, {"name": "%" + name + "%"})
-    materials = content.fetchall()
-    return materials
-
-def materials_by_author(author):
-    sql = "SELECT M.* FROM users U, materials M WHERE U.username=:author and U.id=M.owner_id;"
-    content = db.session.execute(sql, {"author": author})
-    materials = content.fetchall()
-    return materials
-
-def materials_by_category(category):
-    sql = "SELECT * FROM materials WHERE category_name=:category;"
-    content = db.session.execute(sql, {"category": category})
-    materials = content.fetchall()
-    return materials
 
 def drop_material(material_id):
     sql = "DELETE FROM materials WHERE id=:material_id;"
@@ -139,3 +139,20 @@ def get_feedback(material_id):
     content = db.session.execute(sql, {"material_id": material_id})
     feedback = content.fetchall()
     return feedback
+
+def like(material_id, user_id, like_value):
+    try:
+        sql = "INSERT INTO likes (material_id, user_id, like_value) VALUES (:material_id, :user_id, :like_value);"
+        db.session.execute(sql, {"material_id": material_id, "user_id": user_id, "like_value": like_value})
+        db.session.commit()
+    except:
+        db.session.rollback()
+        sql = "UPDATE likes SET like_value=:like_value WHERE material_id=:material_id AND user_id=:user_id;"
+        db.session.execute(sql, {'material_id': material_id, 'user_id': user_id, 'like_value': like_value})
+        db.session.commit()
+
+def like_status(material_id, user_id):
+    sql = "SELECT like_value FROM likes WHERE material_id=:material_id AND user_id=:user_id;"
+    content = db.session.execute(sql, {"material_id": material_id, "user_id": user_id})
+    likes = content.fetchone()
+    return likes

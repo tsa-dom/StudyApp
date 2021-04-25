@@ -24,4 +24,11 @@ CREATE TABLE feedback (
     material_id INTEGER,
     user_id INTEGER,
     content_raw TEXT
-)
+);
+
+CREATE TABLE likes (
+    material_id INTEGER,
+    user_id INTEGER,
+    like_value INTEGER,
+    UNIQUE (material_id, user_id)
+);

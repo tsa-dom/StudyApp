@@ -34,7 +34,13 @@
   {% if owner == False %}
     <div id="give" style="display: '';">
       <button class="material" onclick="feedbackCreation()">Anna palautetta</button>
-      <p></p>
+      {% if likes == False %}
+        <button class="material" onclick="fire('main', '/materials/like/' + {{ session.material_id }} + '/2')">Tykkää</button>
+        <button class="material" onclick="fire('main', '/materials/like/' + {{ session.material_id }} + '/0')">Epätykkää</button>
+      {% endif %}
+      {% if likes == True %}
+        <button class="material" onclick="fire('main', '/materials/like/' + {{ session.material_id }} + '/1')"">Poista tykkäys</button>
+      {% endif %}
     </div>
     <div id="hide" style="display: none;">
       <textarea id="feedback" rows="10" name="feedback"></textarea>
