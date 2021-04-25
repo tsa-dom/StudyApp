@@ -47,3 +47,18 @@ Sisältö osassa käyttäjä näkee luomansa sisällöt oppimateriaalille. Oppim
 
 #### Uuden oppimateriaalin luominen
 Käyttäjä voi luoda oppimateriaalin antamalla sille nimen, sisällön (jota voidaan muokata jälkeenpäin) ja katergorian. Oppimateriaalin nimen tulee sisältää vähintään 4 merkkiä ja jos ehto ei täyty ilmoittaa sovellus käyttäjälle siitä. Kategoria ruudulla ei toistaiseksi ole mitään tekemistä sovelluksen nykyisen version kanssa, mutta sille tulee myöhemmin oppimateriaalien haun kannalta oleellinen ominaisuus.
+
+#### Materiaalin nimen muuttaminen
+Materiaalin nimeä voidaan muokata jos materiaali on käyttäjän oma tekemä. Selain tekee ponnahdusikkunan kun materiaalia yritetään luoda.
+
+#### Materiaalin poistaminen
+Oman luodun materiaalin voi poistaa jos hyväksyy poistamisen kirjoittamalla DELETE materiaalin poiston yhteydessä tulevaan ponnahdusikkunaan.
+
+#### Materiaalien ranking
+Materiaaleja voi käyttäjien osalta tykkää/epätykkää, jolloin sen pisteytys nousee tai laskee sen mukaan. Materiaalit on järjestetty pisteytyksen mukaan.
+
+#### Palautteen antaminen
+Materiaalille voi antaa palautetta, jolloin se on materiaalin luoneen käyttäjän nähtävissä.
+
+#### Materiaalien hakutoiminnallisuus
+Materiaaleja voidaan hakea nimen, tekijän ja tagin perusteella.
