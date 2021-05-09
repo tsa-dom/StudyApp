@@ -23,12 +23,6 @@ Sovelluksen tarkoitus on että sivustoa käyttävä käyttäjä näkee listan si
 * Oppimateriaalin nimen muuttaminen
 * Oppimateriaalit ovat näkymättömiä kunnes käyttäjä on luonut kappaleita oppimateriaalille
 
-## Ominaisuudet joita ei olla vielä tehty
-* Oppimateriaalin sisällön poistaminen
-* Mahdollisuus lisätä tehtäviä oppimateriaalille
-* Mahdollisuus tehdä muiden käyttäjien luomia tehtäviä
-* Kirjautunut käyttäjä voi rajoittaa luomansa oppimateriaalin käyttöä kirjautumisavaimella
-
 ## Sovelluksen testaaminen herokussa
 #### Käyttäjän luominen
 Käyttäjän voi luoda antamalla käyttäjätunnuksen ja sille salasanan. Käyttäjätunnuksen tulee sisältää vähintään 3 merkkiä ja maksimissaan 20. Mikäli maksimi merkki määrä ylittyy, ei sovellus toistaiseksi ilmoita siitä, mutta et voi luoda käyttäjätunnusta. Käyttäjätunnuksen tulee olla myös uniikki, joten mikäli käyttäjätunnuksen luominen ei onnistu, saattaa olla syy tässä, mikäli yrittää luoda käyttäjätunnusta joka on jo olemassa. Salasanan tulee olla vähintään 8 merkkiä pitkä ja se on annettava kaksi kertaa ja molempien salasanojen tulee olla keskenään samat.
