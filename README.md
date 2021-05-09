@@ -5,7 +5,7 @@
 
 ## Sovelluksen tarkoitus
 
-Sovelluksen tarkoitus on että sivustoa käyttävä käyttäjä näkee listan sivustolla olevista muiden kirjautuneiden käyttäjien luomista suosituimmista oppimateriaaleista. Oppimateriaalien nimien ja kuvausten tarkastelu ei vaadi käyttäjältä kirjautumista, mutta käyttäjän on kirjauduttava palveluun nähdäkseen oppimateriaalin sisältöjä ja tehdessään omia oppimateriaaleja.
+Sovelluksen tarkoitus on että sivustoa käyttävä käyttäjä näkee listan sivustolla olevista muiden kirjautuneiden käyttäjien luomista suosituimmista oppimateriaaleista. Oppimateriaalien nimien ja kuvausten tarkastelu ei vaadi käyttäjältä kirjautumista, mutta käyttäjän on kirjauduttava palveluun nähdäkseen oppimateriaalin sisältöjä.
 
 ## Toteutetut ominaisuudet
 * Käyttäjänä luoda käyttäjätunnuksen joka sisältää vähintään 3 merkkiä.
