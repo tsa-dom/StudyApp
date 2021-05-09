@@ -3,6 +3,7 @@ from flask import redirect, request, session, render_template
 from werkzeug.security import check_password_hash, generate_password_hash
 from os import urandom
 import access as db
+import validate
 
 def create_sessions(username):
     session["username"] = username
@@ -23,11 +24,18 @@ def login():
 @app.route("/signup", methods=["POST"])
 def create():
     username = request.form["username"]
-    password_hash = generate_password_hash(request.form["password"])
+    password = request.form["password"]
+    confirmation = request.form["confirmation"]
+    print(validate.equal(username, password))
+    if validate.username(username) and validate.password(password) and validate.equal(password, confirmation):
+        password_hash = generate_password_hash(request.form["password"])
             
-    if db.create_user(username, password_hash):
-        create_sessions(username)
-        return redirect("/")
+        if db.create_user(username, password_hash):
+            create_sessions(username)
+            return redirect("/")
+
+    else:
+        redirect("/")
 
     return redirect("/signup")
 
